@@ -14,7 +14,7 @@ const createListing = async (req, res) => {
     res.send(`New listing created with the following id: ${result.insertedId}`);
     // console.log(`New listing created with the following id: ${result.insertedId}`)
   } catch(e) {
-    console.log(e);
+    res.status(500).send(e);
   }
 }
 
