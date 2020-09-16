@@ -1,3 +1,3 @@
-const createListing = require('./listings/createListing');
+const createListing = require('./modules/listings/createListing');
 
 module.exports = { createListing };

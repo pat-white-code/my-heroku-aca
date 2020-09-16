@@ -12,7 +12,7 @@ require('dotenv').config();
 //   console.log(`New listing created with the following id: ${result.insertedId}`)
 // }
 
-const main = async (req, res) => {
+const createListing = async (req, res) => {
   const uri = process.env.MONGO_URI;
   const client = new MongoClient(uri);
   const { name, summary, bedrooms, bathrooms } = req.body;
@@ -29,10 +29,13 @@ const main = async (req, res) => {
     await client.connect();
     const abnb = client.db("sample_airbnb").collection("listingsAndReviews");
     let result = await abnb.insertOne(listing);
-    console.log(`New listing created with the following id: ${result.insertedId}`)
+    res.send(`New listing created with the following id: ${result.insertedId}`);
+    // console.log(`New listing created with the following id: ${result.insertedId}`)
   } catch(e) {
     console.log(e);
   }
 }
 
-main().catch(console.error);
+// createListing().catch(console.error);
+
+module.exports = createListing;
