@@ -4,4 +4,6 @@ const controller = require('../controllers/listings');
 
 router.post('/', controller.createListing);
 
+router.get('/', controller.getListings);
+
 module.exports = router;
