@@ -1,32 +1,34 @@
 
-// const connection = require('../../../connection');
-const { MongoClient } = require('mongodb');
-require('dotenv').config();
+const connection = require('../../../connection');
 
 
 const getListings = async (req, res) => {
-  const uri = process.env.MONGO_URI;
-  const client = new MongoClient(uri, { useUnifiedTopology: true });
-  // const {bedrooms_gte, bathrooms_gte, amenities} = req.query;
+  const client = connection();
+  const {bedrooms_gte=0, bathrooms_gte=0} = req.query;
   // let bedroomsFilter = {};
-  // if(bedrooms_gte) {
-  //   bedroomsFilter.$gte = bedrooms_gte
-  // }
-  
-  // let filter = {
-  //   bedrooms: bedroomsFilter
-  // }
+
+  let filter = {
+    bedrooms: {
+      $gte: parseInt(bedrooms_gte),
+    },
+    bathrooms: {
+      $gte: parseInt(bathrooms_gte)
+    }
+  }
 
   try{
     await client.connect();
     const cursor = client.db("sample_airbnb").collection("listingsAndReviews")
-      .find()
-      .limit(50);
+      .find(filter)
+      .limit(50)
+      .project({_id: 0, bedrooms: 1, bathrooms: 1})
 
     const results = await cursor.toArray();
     res.json(results);
   } catch(e) {
     res.status(500).send(e)
+  } finally{
+    client.close();
   }
 }
 
