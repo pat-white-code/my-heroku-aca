@@ -1,17 +1,13 @@
-
-const { expect } = require('chai');
+// const { expect } = require('chai');
 const connection = require('../../../connection');
 
 
 const getListings = async (req, res) => {
   const client = connection();
-  const {bedrooms_gte=0, bathrooms_gte, reviews, images, description} = req.query;
-  // let bedroomsFilter = {};
+  const {bedrooms_gte, bathrooms_gte, reviews, images, description} = req.query;
+
   let regex = new RegExp(`.*${description}*.`);
-  let filter = {
-  // description: {$regex: /.*enjoy*./} 
-  // description: {$regex: regex} 
-  }
+  let filter = {}
 
   bedrooms_gte && (filter.bedrooms = {...filter.bedrooms, $gte: parseInt(bedrooms_gte)});
   bathrooms_gte && (filter.bathrooms = {...filter.bathrooms, $gte: parseInt(bathrooms_gte)});
