@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const publicPath = path.join(__dirname, '..', 'build');
-const port = process.env.PORT || 3000;
+const publicPath = path.join(__dirname, '..', 'client/build');
+const port = process.env.PORT || 8080;
 const listingsRouter = require('./routes/listings');
 const bodyParser = require('body-parser')
 

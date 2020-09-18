@@ -13,14 +13,13 @@ const getListings = async (req, res) => {
   bathrooms_gte && (filter.bathrooms = {...filter.bathrooms, $gte: parseInt(bathrooms_gte)});
   reviews && (filter.reviews = {...filter.reviews, $exists: true, $ne: null});
   images && (filter.images = {...filter.images, $exists: true, $ne: null});
-  // desc && (filter.desc = {...filter.description, $regex: new RegExp(desc), $options: 'i'});
   description && (filter.description = {...filter.description, $regex: regex, $options: 'i'});
 
   try{
     await client.connect();
     const cursor = client.db("sample_airbnb").collection("listingsAndReviews")
       .find(filter)
-      .limit(50)
+      .limit(100)
       .project({_id: 0, description: 1})
 
     const results = await cursor.toArray();
